@@ -1,0 +1,20 @@
+Candidate schema = {
+    _id: MongoDB ObjectID,
+    name: String,
+    roll_no: String,
+    rank: Number,
+    preferences: [String]
+}
+
+State schema = {
+    _id: mongoDB ObjectID,
+    name: String,
+    total_seats: Number,
+    unreserved: Number,
+    ews: Number,
+    obc: Number,
+    sc: Number,
+    st: Number
+}
+
+NOTE: total_seats === unreserved + ews + obc + sc + st
