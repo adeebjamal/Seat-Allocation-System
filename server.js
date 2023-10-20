@@ -1,6 +1,7 @@
 const express = require("express");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 
@@ -14,6 +15,7 @@ mongoose.connect(protected.mongoDB_url);
 // middlewares
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use(cookieParser());
 app.set("view engine","ejs");
 
 // Adding routes
