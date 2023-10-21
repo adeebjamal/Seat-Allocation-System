@@ -17,13 +17,13 @@ const candidateSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        default: null
+        default: -1
     },
     rank: {
         type: Number,
         required: true,
         unique: true,
-        default: null
+        default: -1
     },
     preferences: {
         type: [String],
