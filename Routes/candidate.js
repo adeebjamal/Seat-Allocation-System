@@ -147,7 +147,6 @@ router.post("/details", async(req,res) => {
         }
         const decodedJWT = jwt.verify(receivedToken, protected.secret_key);
         const user = await CANDIDATE.findOne({_id: decodedJWT.ID});
-        console.log(req.body);
         if(checkUndefined(req.body)) {
             return res.status(400).render("dashboard", {
                 Name: user.name,
@@ -168,7 +167,13 @@ router.post("/details", async(req,res) => {
             const index = Number(req.body[key]);
             preferencesArray[index] = key;
         }
-        return res.status(200).json({array: preferencesArray});
+        user.preferences = preferencesArray;
+        await user.save();
+        return res.status(200).render("dashboard", {
+            Name: user.name,
+            states: protected.states,
+            message: "Preferences updated."
+        });
     }
     catch(error) {
         console.log(error);

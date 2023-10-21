@@ -5,5 +5,6 @@ module.exports = {
     secret_key: process.env.secret_key,
     emailAddress: process.env.emailAddress,
     password: process.env.password,
+    adminPassword: process.env.adminPassword,
     states: ["Delhi","Uttrakhand","JammuAndKashmir","Haryana","Rajasthan","Punjab","HimachalPradesh","UttarPradesh","Bihar","Jharkhand","Orissa","AndhraPradesh","Telangana","Karnataka","Goa","TamilNadu","Kerala","WestBengal","NorthEast","Maharashtra","MadhyaPradesh","Chattisgarh","Gujrat"]
 };

@@ -20,6 +20,7 @@ app.set("view engine","ejs");
 
 // Adding routes
 app.use("/", require("./Routes/index"));
+app.use("/admin", require("./Routes/admin"));
 app.use("/candidate", require("./Routes/candidate"));
 
 app.listen(3000, () => {
