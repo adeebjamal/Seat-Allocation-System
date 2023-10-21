@@ -12,7 +12,9 @@ router.get("/", async(req,res) => {
             const decodedJWT = jwt.verify(receivedToken, protected.secret_key);
             const foundUser = await CANDIDATE.findOne({_id: decodedJWT.ID});
             return res.status(200).render("dashboard", {
-                Name: foundUser.name
+                Name: foundUser.name,
+                states: protected.states,
+                message: ""
             });
         }
         return res.status(200).render("homepage", {

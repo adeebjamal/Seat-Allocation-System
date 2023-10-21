@@ -6,6 +6,23 @@
     </head>
     <body>
         <h2>Welcome <%= Name %></h2>
-        <p>Login successful. </p>
+        <p>Login successful.</p>
+        <a href="/candidate/logout">Logout</a>
+        <br><h2>Update your details</h2>
+        <p style="color: red;"><%= message %></p>
+        <form action="/candidate/details" method="post">
+            <input type="text" name="rollNumber" placeholder="Roll Number"><br>
+            <input type="text" name="rank" placeholder="rank"><br>
+            <p>Assign numbers to the following states in order of your preferences.</p>
+            <table>
+                <% for(let i=0; i<states.length; i++) { %>
+                    <tr>
+                        <td><label><%= states[i] %></label></td>
+                        <td><input type="text" name=<%= states[i] %> placeholder="1 to 23"></td>
+                    </tr>
+                <% } %>
+            </table>
+            <button type="submit">Save</button>
+        </form>
     </body>
 </html>

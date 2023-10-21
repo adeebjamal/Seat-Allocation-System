@@ -7,6 +7,21 @@ const CANDIDATE = require("../Models/candidate");
 const OTPgenerator = require("../functions/OTPgenerator");
 const protected = require("../protected");
 const sendOTP = require("../functions/send_otp");
+const checkUndefined = require("../functions/checkUndefined");
+
+router.get("/logout", async(req,res) => {
+    try {
+        res.clearCookie("JWT");
+        return res.status(200).render("homepage", {
+            message: "Logged out successfully."
+        });
+    }
+    catch(error) {
+        return res.status(500).render("homepage", {
+            message: "Internal server error."
+        });
+    }
+});
 
 router.post("/register", async(req,res) => {
     try {
@@ -109,13 +124,56 @@ router.post("/login", async(req,res) => {
         const jwtToken = jwt.sign({ID: tempCandidate._id}, protected.secret_key);
         res.cookie("JWT", jwtToken);
         return res.status(200).render("dashboard", {
-            Name: tempCandidate.name
+            Name: tempCandidate.name,
+            states: protected.states,
+            message: ""
         });
     }
     catch(error) {
         console.log(error);
         return res.status(500).render("homepage", {
             message: "internal server error."
+        });
+    }
+});
+
+router.post("/details", async(req,res) => {
+    try {
+        const receivedToken = req.cookies.JWT;
+        if(!receivedToken) {
+            return res.status(400).render("homepage", {
+                message: "You need to login first."
+            });
+        }
+        const decodedJWT = jwt.verify(receivedToken, protected.secret_key);
+        const user = await CANDIDATE.findOne({_id: decodedJWT.ID});
+        console.log(req.body);
+        if(checkUndefined(req.body)) {
+            return res.status(400).render("dashboard", {
+                Name: user.name,
+                states: protected.states,
+                message: "Please fill all the required details, make sure the preferences are unique and only contains digits. Also the preferences should lie in the range of 1 to 23."
+            });
+        }
+        user.roll_no = req.body.rollNumber;
+        user.rank = req.body.rank;
+        let preferencesArray = [];
+        for(let i=0; i<=23; i++) {
+            preferencesArray.push("");
+        }
+        for(let key in req.body) {
+            if(key === "rollNumber" || key === "rank") {
+                continue;
+            }
+            const index = Number(req.body[key]);
+            preferencesArray[index] = key;
+        }
+        return res.status(200).json({array: preferencesArray});
+    }
+    catch(error) {
+        console.log(error);
+        return res.status(500).render("homepage", {
+            message: "Internal server error."
         });
     }
 });
