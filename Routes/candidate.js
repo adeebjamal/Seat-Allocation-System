@@ -58,7 +58,7 @@ router.post("/register", async(req,res) => {
     }
     catch(error) {
         console.log(error);
-        return res.status(500).render(homepage, {
+        return res.status(500).render("homepage", {
             message: "Internal server error."
         });
     }
@@ -155,7 +155,7 @@ router.post("/details", async(req,res) => {
             });
         }
         user.roll_no = req.body.rollNumber;
-        user.rank = req.body.rank;
+        // user.rank = req.body.rank;
         let preferencesArray = [];
         for(let i=0; i<=23; i++) {
             preferencesArray.push("");

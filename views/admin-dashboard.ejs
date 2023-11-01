@@ -6,17 +6,36 @@
     </head>
     <body>
         <h2>Access granted to the admin.</h2>
+        <form action="/admin/allocate" method="post">
+            <label>Start the allocation process: </label>
+            <button type="submit">Start</button>
+        </form>
         <% for(let i=0; i<candidates.length; i++) { %>
             <hr>
             <p>Name: <%= candidates[i].name %></p>
             <p>E-mail: <%= candidates[i].email %></p>
             <p>Roll number: <%= candidates[i].roll_no %></p>
             <p>Rank: <%= candidates[i].rank %></p>
+            <p>Category: <%= candidates[i].category %></p>
+            <a href=<%= "/admin/candidate/" + candidates[i]._id %>>See preferences</a>
+            <p><em>Update Rank and category</em></p>
+            <form method="post" action=<%= "/admin/candidate/" + candidates[i]._id %>>
+                <input type="text" name="rank" placeholder="Rank"><br>
+                <select name="category">
+                    <option value="UR">Unreserved</option>
+                    <option value="EWS">EWS</option>
+                    <option value="OBC">OBC</option>
+                    <option value="SC">SC</option>
+                    <option value="ST">ST</option>
+                    <option value="PwBD">PwBD</option>
+                </select><br>
+                <button type="submit">Update</button>
+            </form>
             <!-- <p>Preferences: <%= candidates[i].preferences %></p> -->
-            <% for(let j=0; j<candidates[i].preferences.length; j++) { %>
+            <!-- <% for(let j=0; j<candidates[i].preferences.length; j++) { %>
                 <% if(j === 0) continue; %>
                 <p style="color: blue;"><%= j %>. <%= candidates[i].preferences[j] %></p>
-            <% } %>
+            <% } %> -->
         <% } %>
     </body>
 </html>

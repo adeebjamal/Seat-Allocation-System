@@ -25,6 +25,11 @@ const candidateSchema = new mongoose.Schema({
         unique: true,
         default: -1
     },
+    category: {
+        type: String,
+        required: true,
+        default: "UR"
+    },
     preferences: {
         type: [String],
         required: true,
