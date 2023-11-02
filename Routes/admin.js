@@ -4,6 +4,22 @@ const md5 = require("md5");
 // Importing user defined files and functions
 const protected = require("../protected");
 const CANDIDATE = require("../Models/candidate");
+const STATE = require("../Models/state");
+
+router.get("/states", async(req,res) => {
+    try {
+        const foundStates = await STATE.find();
+        return res.status(200).render("states", {
+            states: foundStates
+        });
+    }
+    catch(error) {
+        console.log(error);
+        return res.status(500).render("homepage", {
+            message: "Internal server error."
+        });
+    }
+});
 
 router.get("/candidate/:ID", async(req,res) => {
     try {
@@ -42,16 +58,19 @@ router.get("/:password", async(req,res) => {
 
 router.post("/candidate/:ID", async(req,res) => {
     try {
-        console.log(req.body);
+        // console.log(req.body);
         const foundCandidate = await CANDIDATE.findOne({_id: req.params.ID});
         if(!foundCandidate) {
             return res.status(400).json({message: "Candidate doesn't exists."});
         }
         if(req.body.rank) {
-            foundCandidate.rank = req.body.rank;
+            foundCandidate.rank = Number(req.body.rank);
         }
         if(req.body.category) {
             foundCandidate.category = req.body.category;
+        }
+        if(req.body.ownMerit) {
+            foundCandidate.ownMerit = req.body.ownMerit
         }
         await foundCandidate.save();
         const foundCandidates = await CANDIDATE.find();
@@ -70,6 +89,29 @@ router.post("/candidate/:ID", async(req,res) => {
 router.post("/allocate", async(req,res) => {
     try {
         
+    }
+    catch(error) {
+        console.log(error);
+        return res.status(500).render("homepage", {
+            message: "Internal server error."
+        });
+    }
+});
+
+router.post("/states", async(req,res) => {
+    try {
+        const newState = new STATE({
+            name: req.body.name,
+            ur: Number(req.body.ur),
+            ews: Number(req.body.ews),
+            obc: Number(req.body.obc),
+            sc: Number(req.body.sc),
+            st: Number(req.body.st),
+            pwbd: Number(req.body.pwbd),
+            totalSeats: Number(req.body.ur)+Number(req.body.ews)+Number(req.body.obc)+Number(req.body.sc)+Number(req.body.st)+Number(req.body.pwbd)
+        });
+        await newState.save();
+        return res.status(201).redirect("/admin/states");
     }
     catch(error) {
         console.log(error);

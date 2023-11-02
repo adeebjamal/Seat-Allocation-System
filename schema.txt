@@ -14,7 +14,10 @@ State schema = {
     ews: Number,
     obc: Number,
     sc: Number,
-    st: Number
+    st: Number,
+    pwbd: Number
 }
 
-NOTE: total_seats === unreserved + ews + obc + sc + st
+NOTE: total_seats === unreserved + ews + obc + sc + st + pwbd
+
+const foundCandidates = await Candidate.find({}).sort({rank: 1}).exec();

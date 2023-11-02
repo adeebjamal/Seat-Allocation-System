@@ -30,6 +30,10 @@ const candidateSchema = new mongoose.Schema({
         required: true,
         default: "UR"
     },
+    ownMerit: {
+        type: String,
+        default: "NO"
+    },
     preferences: {
         type: [String],
         required: true,

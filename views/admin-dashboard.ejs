@@ -6,6 +6,7 @@
     </head>
     <body>
         <h2>Access granted to the admin.</h2>
+        <a href="/admin/states">See states</a>
         <form action="/admin/allocate" method="post">
             <label>Start the allocation process: </label>
             <button type="submit">Start</button>
@@ -17,10 +18,13 @@
             <p>Roll number: <%= candidates[i].roll_no %></p>
             <p>Rank: <%= candidates[i].rank %></p>
             <p>Category: <%= candidates[i].category %></p>
+            <p>Own Merit: <%= candidates[i].ownMerit %></p>
             <a href=<%= "/admin/candidate/" + candidates[i]._id %>>See preferences</a>
             <p><em>Update Rank and category</em></p>
             <form method="post" action=<%= "/admin/candidate/" + candidates[i]._id %>>
+                <label>Rank: </label>
                 <input type="text" name="rank" placeholder="Rank"><br>
+                <label>Category: </label>
                 <select name="category">
                     <option value="UR">Unreserved</option>
                     <option value="EWS">EWS</option>
@@ -28,6 +32,11 @@
                     <option value="SC">SC</option>
                     <option value="ST">ST</option>
                     <option value="PwBD">PwBD</option>
+                </select><br>
+                <label>Own merit: </label>
+                <select name="ownMerit">
+                    <option value="NO">NO</option>
+                    <option value="YES">YES</option>
                 </select><br>
                 <button type="submit">Update</button>
             </form>

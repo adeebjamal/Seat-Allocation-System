@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>States</title>
+    </head>
+    <body>
+        <p>Add new state:</p>
+        <form action="/admin/states" method="post">
+            <table>
+                <tr>
+                    <td>Name: </td>
+                    <td><input type="text" name="name"></td>
+                </tr>
+                <tr>
+                    <td>Unreserved: </td>
+                    <td><input type="number" name="ur"></td>
+                </tr>
+                <tr>
+                    <td>EWS: </td>
+                    <td><input type="number" name="ews"></td>
+                </tr>
+                <tr>
+                    <td>OBC: </td>
+                    <td><input type="number" name="obc"></td>
+                </tr>
+                <tr>
+                    <td>SC: </td>
+                    <td><input type="number" name="sc"></td>
+                </tr>
+                <tr>
+                    <td>ST: </td>
+                    <td><input type="number" name="st"></td>
+                </tr>
+                <tr>
+                    <td>PwBD: </td>
+                    <td><input type="number" name="pwbd"></td>
+                </tr>
+            </table>
+            <button type="submit">Add state</button>
+        </form>
+        <% for(let i=0; i<states.length; i++) { %>
+            <hr>
+            <p>Name: <%= states[i].name %></p>
+            <ul>
+                <li>Total seats: <%= states[i].totalSeats %></li>
+                <li>Unreserved: <%= states[i].ur %></li>
+                <li>EWS: <%= states[i].ews %></li>
+                <li>OBC: <%= states[i].obc %></li>
+                <li>SC: <%= states[i].sc %></li>
+                <li>ST: <%= states[i].st %></li>
+                <li>PwBD: <%= states[i].pwbd %></li>
+            </ul>
+        <% } %>
+    </body>
+</html>
