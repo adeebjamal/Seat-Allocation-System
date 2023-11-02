@@ -100,6 +100,18 @@ router.post("/allocate", async(req,res) => {
 
 router.post("/states", async(req,res) => {
     try {
+        const foundState = await STATE.findOne({name: req.body.name});
+        if(foundState) {
+            foundState.ur = Number(req.body.ur);
+            foundState.ews = Number(req.body.ews);
+            foundState.obc = Number(req.body.obc);
+            foundState.sc = Number(req.body.sc);
+            foundState.st = Number(req.body.st);
+            foundState.pwbd = Number(req.body.pwbd);
+            foundState.totalSeats = Number(req.body.ur)+Number(req.body.ews)+Number(req.body.obc)+Number(req.body.sc)+Number(req.body.st)+Number(req.body.pwbd);
+            await foundState.save();
+            return res.status(200).redirect("/admin/states");
+        }
         const newState = new STATE({
             name: req.body.name,
             ur: Number(req.body.ur),
