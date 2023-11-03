@@ -19,6 +19,7 @@
             <p>Rank: <%= candidates[i].rank %></p>
             <p>Category: <%= candidates[i].category %></p>
             <p>Own Merit: <%= candidates[i].ownMerit %></p>
+            <p style="color: green;">Allotted state: <%= candidates[i].allottedState %></p>
             <a href=<%= "/admin/candidate/" + candidates[i]._id %>>See preferences</a>
             <p><em>Update Rank and category</em></p>
             <form method="post" action=<%= "/admin/candidate/" + candidates[i]._id %>>

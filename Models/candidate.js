@@ -38,6 +38,10 @@ const candidateSchema = new mongoose.Schema({
         type: [String],
         required: true,
         default: []
+    },
+    allottedState: {
+        type: String,
+        default: "Not allotted yet."
     }
 });
 

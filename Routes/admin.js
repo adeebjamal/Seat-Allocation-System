@@ -5,6 +5,7 @@ const md5 = require("md5");
 const protected = require("../protected");
 const CANDIDATE = require("../Models/candidate");
 const STATE = require("../Models/state");
+const allot_PwBD = require("../functions/allot_PwBD");
 
 router.get("/states", async(req,res) => {
     try {
@@ -88,7 +89,13 @@ router.post("/candidate/:ID", async(req,res) => {
 
 router.post("/allocate", async(req,res) => {
     try {
-        
+        const foundCandidates = await CANDIDATE.find({}).sort({rank: 1}).exec();
+        for(let i=0; i<foundCandidates.length; i++) {
+            if(foundCandidates[i].category === "PwBD") {
+                allot_PwBD(foundCandidates[i]);
+            }
+        }
+        return res.status(200).redirect("/admin/qwertyuiop");   
     }
     catch(error) {
         console.log(error);
