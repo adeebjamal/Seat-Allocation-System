@@ -1,5 +1,5 @@
 const STATE = require("../Models/state");
-const CANDIDATE = require("../Models/candidate");
+// const CANDIDATE = require("../Models/candidate");
 
 module.exports = async(candidate) => {
     for(let i=1; i<candidate.preferences.length; i++) {

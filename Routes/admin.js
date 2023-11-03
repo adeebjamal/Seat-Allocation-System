@@ -6,6 +6,7 @@ const protected = require("../protected");
 const CANDIDATE = require("../Models/candidate");
 const STATE = require("../Models/state");
 const allot_PwBD = require("../functions/allot_PwBD");
+const allot_own_merit = require("../functions/allot_own_merit");
 
 router.get("/states", async(req,res) => {
     try {
@@ -93,6 +94,16 @@ router.post("/allocate", async(req,res) => {
         for(let i=0; i<foundCandidates.length; i++) {
             if(foundCandidates[i].category === "PwBD") {
                 allot_PwBD(foundCandidates[i]);
+            }
+        }
+        for(let i=0; i<foundCandidates.length; i++) {
+            if(foundCandidates[i].allottedState === "Not allotted yet.") {
+                if(foundCandidates[i].ownMerit === "YES") {
+                    allot_own_merit(foundCandidates[i]);
+                }
+                else {
+
+                }
             }
         }
         return res.status(200).redirect("/admin/qwertyuiop");   
