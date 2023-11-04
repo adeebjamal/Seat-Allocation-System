@@ -7,6 +7,7 @@ const CANDIDATE = require("../Models/candidate");
 const STATE = require("../Models/state");
 const allot_PwBD = require("../functions/allot_PwBD");
 const allot_own_merit = require("../functions/allot_own_merit");
+const allot_category_wise = require("../functions/allot_category_wise");
 
 router.get("/states", async(req,res) => {
     try {
@@ -91,18 +92,20 @@ router.post("/candidate/:ID", async(req,res) => {
 router.post("/allocate", async(req,res) => {
     try {
         const foundCandidates = await CANDIDATE.find({}).sort({rank: 1}).exec();
+        // alloting seats to PwBD candidate
         for(let i=0; i<foundCandidates.length; i++) {
             if(foundCandidates[i].category === "PwBD") {
                 allot_PwBD(foundCandidates[i]);
             }
         }
+        // alloting seats according to `Own merit` and `reservation category`
         for(let i=0; i<foundCandidates.length; i++) {
             if(foundCandidates[i].allottedState === "Not allotted yet.") {
                 if(foundCandidates[i].ownMerit === "YES") {
                     allot_own_merit(foundCandidates[i]);
                 }
                 else {
-
+                    allot_category_wise(foundCandidates[i]);
                 }
             }
         }
