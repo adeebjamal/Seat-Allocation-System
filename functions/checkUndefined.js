@@ -1,22 +1,14 @@
-module.exports = (javaScriptObject) => {
-    let hash = {};
-    for(let key in javaScriptObject) {
-        for(let i=0; i<javaScriptObject[key].length; i++) {
-            if(!(javaScriptObject[key][i] >= '0' && javaScriptObject[key][i] <= '9')) {
-                return true
-            }
-            if(javaScriptObject[key] < 1 || javaScriptObject[key] > 23) {
-                return true;
-            }
-        }
-        if(javaScriptObject[key] === '') {
+module.exports = (body) => {
+    hash = {};
+    for(const key in body) {
+        if (body.hasOwnProperty(key) && body[key] === undefined) {
             return true;
         }
-        if(hash[javaScriptObject[key]]) {
+        hash[Number(body[key])] = 1;
+    }
+    for(let num=1; num<=23; num++) {
+        if(!hash[num]) {
             return true;
-        }
-        else if(key !== "rollNumber" && key !== "rank") {
-            hash[javaScriptObject[key]] = 1;
         }
     }
     return false;
