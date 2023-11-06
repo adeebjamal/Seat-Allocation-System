@@ -8,6 +8,7 @@ const STATE = require("../Models/state");
 const allot_PwBD = require("../functions/allot_PwBD");
 const allot_own_merit = require("../functions/allot_own_merit");
 const allot_category_wise = require("../functions/allot_category_wise");
+const allot_remaining = require("../functions/allot_remaining");
 
 router.get("/states", async(req,res) => {
     try {
@@ -92,21 +93,27 @@ router.post("/candidate/:ID", async(req,res) => {
 router.post("/allocate", async(req,res) => {
     try {
         const foundCandidates = await CANDIDATE.find({}).sort({rank: 1}).exec();
-        // alloting seats to PwBD candidate
+        // STEP 1: Alloting seats to PwBD candidate
         for(let i=0; i<foundCandidates.length; i++) {
             if(foundCandidates[i].category === "PwBD") {
-                allot_PwBD(foundCandidates[i]);
+                await allot_PwBD(foundCandidates[i]);
             }
         }
-        // alloting seats according to `Own merit` and `reservation category`
+        // STEP 2: Alloting seats according to `Own merit` and `reservation category`
         for(let i=0; i<foundCandidates.length; i++) {
             if(foundCandidates[i].allottedState === "Not allotted yet.") {
                 if(foundCandidates[i].ownMerit === "YES") {
-                    allot_own_merit(foundCandidates[i]);
+                    await allot_own_merit(foundCandidates[i]);
                 }
                 else {
-                    allot_category_wise(foundCandidates[i]);
+                    await allot_category_wise(foundCandidates[i]);
                 }
+            }
+        }
+        // STEP 3: Allocating `UR` seats to remaining candidates.
+        for(let i=0; i<foundCandidates.length; i++) {
+            if(foundCandidates[i].allottedState === "Not allotted yet.") {
+                await allot_remaining(foundCandidates[i]);
             }
         }
         return res.status(200).redirect("/admin/qwertyuiop");   
